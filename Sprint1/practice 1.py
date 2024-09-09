@@ -133,6 +133,23 @@ def greyscale():
     return blank_image
 
 
+def rotate90(compressed_file):
+    image = Image.open("r34.jpg")
+    data = image.load()
+    print(image.width, image.height)
+    blank_image = Image.new("RGB", (image.height, image.width))
+    blank_image_data = blank_image.load()
+    dataset = [[]]
+    compressed_iter = iter(compressed_file)
+    for y in image.height:
+        for x in image.width:
+            value = next(compressed_iter)
+            dataset[y][x] = value
+
+
+
+
+
 def main():
     image = Image.open("r34.jpg")
     data = image.load()
@@ -158,5 +175,7 @@ def main():
 
     grey_image = greyscale()
     grey_image.save("greyimage.png")
+
+    rotate90()
 
 main()
