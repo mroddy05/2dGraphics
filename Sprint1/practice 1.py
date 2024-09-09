@@ -97,6 +97,41 @@ def flip_horiz():
     return blank_image
 
 
+def changing_color():
+    image = Image.open("r34.jpg")
+    data = image.load()
+    blank_image = Image.new("RGB", (image.width, image.height))
+    blank_image_data = blank_image.load()
+    for y in range(image.height):
+        for x in range(image.width):
+            pixel = data[x,y]
+            red, green, blue = pixel
+            blue += 100
+            if blue > 255:
+                blue = 255
+            blank_image_data[x,y] = (red, green, blue)
+
+
+    return blank_image
+
+
+def greyscale():
+    image = Image.open("r34.jpg")
+    data = image.load()
+    blank_image = Image.new("RGB", (image.width, image.height))
+    blank_image_data = blank_image.load()
+    for y in range(image.height):
+        for x in range(image.width):
+            pixel = data[x,y]
+            red, green, blue = pixel
+            red_factor = .21
+            green_factor = .71
+            blue_factor = .08
+            k = int(red * red_factor + green * green_factor + blue * blue_factor)
+            blank_image_data[x,y] = (k,k,k)
+
+    return blank_image
+
 
 def main():
     image = Image.open("r34.jpg")
@@ -111,8 +146,17 @@ def main():
     image_from_compressed.save("image_from_compressed.jpg")
     # print(800*533)
     binary()
+
     vertical_flip_pic = flip_vert()
     vertical_flip_pic.save("verticalflip.png")
+
     horizontal_flip_pic = flip_horiz()
     horizontal_flip_pic.save("horizontalflip.png")
+
+    color_changed_image = changing_color()
+    color_changed_image.save("colorchangedimage.png")
+
+    grey_image = greyscale()
+    grey_image.save("greyimage.png")
+
 main()
